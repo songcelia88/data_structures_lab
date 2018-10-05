@@ -206,23 +206,27 @@ def find_name_duplicates(filename):
     """
 
     duplicate_names = set()
-    all_students =[]
+    summer_16 = set()
+    fall_15 = set()
+    spring_16 = set()
+    winter_16 = set()
     # Code goes here
     with open(filename) as file:
         for line in file:
             line = line.rstrip()
             word = line.split("|")
             last_name = word[1]
-            if word[4] != "I" and word[4] != "G":
-                all_students.append(last_name)
+            cohort = word[4]
+            if cohort == 'Summer 2016':
+                summer_16.add(last_name)
+            elif cohort == 'Spring 2016':
+                spring_16.add(last_name)
+            elif cohort == 'Winter 2016':
+                winter_16.add(last_name)
+            elif cohort == 'Fall 2015':
+                fall_15.add(last_name) 
         
-        unique_names = set(all_students) #create a list of unique last names
-        
-        for student in all_students: #loop through all the last names 
-            if student in unique_names:
-                unique_names.remove(student)
-            else:
-                duplicate_names.add(student)
+        duplicate_names = summer_16 & spring_16 & winter_16 & fall_15
 
     return duplicate_names
 
